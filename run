@@ -1,0 +1,5 @@
+javac --release 8 src/sig/*.java -d bin
+cd bin
+jar cfe ../ffxivai.jar sig.FFXIV sig
+cd ..
+java -cp bin sig/FFXIV
