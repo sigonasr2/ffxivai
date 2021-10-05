@@ -19,14 +19,6 @@ public class App implements NativeKeyListener{
     public static JFrame f;
     public void nativeKeyPressed(NativeKeyEvent e) {
 		System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
-
-		/*if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
-            		try {
-                		GlobalScreen.unregisterNativeHook();
-            		} catch (NativeHookException nativeHookException) {
-                		nativeHookException.printStackTrace();
-            		}
-        	}*/
 	}
 
 	public void nativeKeyReleased(NativeKeyEvent e) {

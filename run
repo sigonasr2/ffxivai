@@ -1,2 +1,2 @@
-mvn clean compile assembly:single
+mvn compile assembly:single
 java -jar target/ffxivai-1.0-jar-with-dependencies.jar
