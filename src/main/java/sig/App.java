@@ -6,13 +6,51 @@ import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
+
 import javax.swing.JFrame;
 
 public class App{
     public static double FRAMETIME=0;
     public static Robot r;
     public static JFrame f;
+    public static void nativeKeyPressed(NativeKeyEvent e) {
+		System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+
+		if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+            		try {
+                		GlobalScreen.unregisterNativeHook();
+            		} catch (NativeHookException nativeHookException) {
+                		nativeHookException.printStackTrace();
+            		}
+        	}
+	}
+
+	public static void nativeKeyReleased(NativeKeyEvent e) {
+		System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+	}
+
+	public static void nativeKeyTyped(NativeKeyEvent e) {
+		System.out.println("Key Typed: " + e.getKeyText(e.getKeyCode()));
+	}
+
     public static void main(String[] args) {
+        try {
+			GlobalScreen.registerNativeHook();
+		}
+		catch (NativeHookException ex) {
+			System.err.println("There was a problem registering the native hook.");
+			System.err.println(ex.getMessage());
+
+			System.exit(1);
+		}
+
+		GlobalScreen.addNativeKeyListener(new GlobalKeyListenerExample());
+
+
         try {
             r = new Robot();
         } catch (AWTException e) {

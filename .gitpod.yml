@@ -1,3 +1,4 @@
+---
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - init: sh ./coauthors.sh
@@ -5,3 +6,4 @@ vscode:
   extensions:
     - redhat.java
     - mhutchie.git-graph
+    - vscjava.vscode-maven
