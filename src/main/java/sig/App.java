@@ -1,4 +1,4 @@
-package main.java.sig;
+package sig;
 
 import java.awt.AWTException;
 import java.awt.Robot;
@@ -13,11 +13,11 @@ import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
 import javax.swing.JFrame;
 
-public class App{
+public class App implements NativeKeyListener{
     public static double FRAMETIME=0;
     public static Robot r;
     public static JFrame f;
-    public static void nativeKeyPressed(NativeKeyEvent e) {
+    public void nativeKeyPressed(NativeKeyEvent e) {
 		System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 
 		if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
@@ -29,15 +29,15 @@ public class App{
         	}
 	}
 
-	public static void nativeKeyReleased(NativeKeyEvent e) {
+	public void nativeKeyReleased(NativeKeyEvent e) {
 		System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 	}
 
-	public static void nativeKeyTyped(NativeKeyEvent e) {
+	public void nativeKeyTyped(NativeKeyEvent e) {
 		System.out.println("Key Typed: " + e.getKeyText(e.getKeyCode()));
 	}
 
-    public static void main(String[] args) {
+    App() {
         try {
 			GlobalScreen.registerNativeHook();
 		}
@@ -48,7 +48,7 @@ public class App{
 			System.exit(1);
 		}
 
-		GlobalScreen.addNativeKeyListener(new GlobalKeyListenerExample());
+		GlobalScreen.addNativeKeyListener(this);
 
 
         try {
@@ -58,6 +58,10 @@ public class App{
         }
         RunInitialAnalysis();
         f = new JFrame("FFXIV AI");
+    }
+
+    public static void main(String[] args) {
+        App a = new App();
     }
     private static void RunInitialAnalysis() {
         long startTime = System.nanoTime();
