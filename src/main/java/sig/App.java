@@ -14,6 +14,12 @@ import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 import javax.swing.JFrame;
 
 public class App implements NativeKeyListener{
+
+    public static boolean CLIENT = true; //true for CLIENT. false for SERVER.
+    public static String SERVER = "projectdivar.com";
+    public static int PORT = 5950;
+
+
     public static double FRAMETIME=0;
     public static Robot r;
     public static JFrame f;
@@ -25,8 +31,18 @@ public class App implements NativeKeyListener{
 		System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 	}
 
+    App(boolean client) {
+        if (!client) {
+            Server s = new Server();
+            System.out.println("Starting server on port "+PORT+"...");
+            s.start(PORT); 
+        } else {
+            new App();
+        }
+    }
+
     App() {
-        RegisterKeyboardHook();
+        /*RegisterKeyboardHook();
 
 
         try {
@@ -36,6 +52,13 @@ public class App implements NativeKeyListener{
         }
         RunInitialAnalysis();
         f = new JFrame("FFXIV AI");
+*/
+        Client c = new Client();
+        System.out.println("Connecting to "+SERVER+" on port "+PORT+".");
+        c.start(SERVER,PORT);
+        System.out.println(c.sendMessage("I am in!"));
+        System.out.println(c.sendMessage("EOF"));
+        c.stop();
     }
 
     private void RegisterKeyboardHook() {
@@ -53,7 +76,11 @@ public class App implements NativeKeyListener{
     }
 
     public static void main(String[] args) {
-        App a = new App();
+        if (!CLIENT) {
+            new App(CLIENT);
+        } else {
+            new App();
+        }
     }
     private static void RunInitialAnalysis() {
         long startTime = System.nanoTime();

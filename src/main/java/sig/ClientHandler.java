@@ -22,6 +22,7 @@ public class ClientHandler extends Thread{
             while ((line=in.readLine())!=null) {
                 if (line.equals("EOF")) {
                     out.println("Goodbye.");
+                    break;
                 }
                 out.println(line);
             }

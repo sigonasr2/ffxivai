@@ -12,8 +12,8 @@ public class Client {
     BufferedReader in;
 
     public void start(String ip,int port) {
-        socket = new Socket();
         try {
+            socket = new Socket(ip,port);
             out = new PrintWriter(socket.getOutputStream(),true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
