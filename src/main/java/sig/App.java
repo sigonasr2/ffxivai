@@ -20,24 +20,33 @@ public class App implements NativeKeyListener{
     public void nativeKeyPressed(NativeKeyEvent e) {
 		System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 
-		if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+		/*if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
             		try {
                 		GlobalScreen.unregisterNativeHook();
             		} catch (NativeHookException nativeHookException) {
                 		nativeHookException.printStackTrace();
             		}
-        	}
+        	}*/
 	}
 
 	public void nativeKeyReleased(NativeKeyEvent e) {
 		System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 	}
 
-	public void nativeKeyTyped(NativeKeyEvent e) {
-		System.out.println("Key Typed: " + e.getKeyText(e.getKeyCode()));
-	}
-
     App() {
+        RegisterKeyboardHook();
+
+
+        try {
+            r = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+        RunInitialAnalysis();
+        f = new JFrame("FFXIV AI");
+    }
+
+    private void RegisterKeyboardHook() {
         try {
 			GlobalScreen.registerNativeHook();
 		}
@@ -49,15 +58,6 @@ public class App implements NativeKeyListener{
 		}
 
 		GlobalScreen.addNativeKeyListener(this);
-
-
-        try {
-            r = new Robot();
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
-        RunInitialAnalysis();
-        f = new JFrame("FFXIV AI");
     }
 
     public static void main(String[] args) {
